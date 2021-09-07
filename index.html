@@ -54,7 +54,13 @@
 							<div class="active">+</div>
 							<div>-</div>
 						</div>
-						<input type="text" id="amount" placeholder="Valor da transação" />
+						<input
+							onKeyUp="Format.formatCurrency(this, event)"
+							type="text"
+							id="amount"
+							value=""
+							placeholder="Valor da transação"
+						/>
 					</div>
 				</div>
 
@@ -65,6 +71,7 @@
 		<script src="models/transaction/Transaction.js"></script>
 		<script src="controllers/TransactionController.js"></script>
 		<script src="utils/RemoveClassList.js"></script>
+		<script src="utils/Format.js"></script>
 		<script src="app.js"></script>
 	</body>
 </html>

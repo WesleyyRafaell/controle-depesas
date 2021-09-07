@@ -17,6 +17,8 @@ class TransactionController {
 			this._typeTransaction
 		);
 
+		console.log(transaction);
+
 		this._cleanForm();
 	}
 
