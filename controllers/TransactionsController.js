@@ -8,22 +8,46 @@ class TransactionsController {
 		this._transactions = new Transactions();
 	}
 
+	init(transactionsInit) {
+		this._transactions.initTransactions(transactionsInit);
+		const transactions = this._transactions.getTransactions();
+		if (transactions.length > 0) {
+			this.updateTotalBalance(transactions);
+		}
+	}
+
 	update(transaction) {
-		this._transactions.add(transaction);
+		this._setTransactionIntoLocalStorage(transaction);
+	}
+
+	_setTransactionIntoLocalStorage(transaction) {
+		let transactions = [];
+		transactions = this._transactions.getTransactions();
+
+		if (transactions.length === 0) {
+			localStorage.setItem("transactions", JSON.stringify([transaction]));
+			this._transactions.add(transaction);
+			this.updateTotalBalance(this._transactions.getTransactions());
+			return;
+		}
+
+		transactions.push(transaction);
+
+		localStorage.setItem("transactions", JSON.stringify(transactions));
 		this.updateTotalBalance(this._transactions.getTransactions());
 	}
 
 	updateTotalBalance(transactions) {
-		const income = this.updateIncome(transactions);
-		const spent = this.updateSpents(transactions);
-		this.addTransactionIntoDom(transactions);
+		const income = this._updateIncome(transactions);
+		const spent = this._updateSpents(transactions);
+		this._addTransactionIntoDom(transactions);
 
 		const totalBalance = income - spent;
 
 		this._$titleBalance.innerHTML = `R$ ${this._formatedCoin(totalBalance)}`;
 	}
 
-	addTransactionIntoDom(transactions) {
+	_addTransactionIntoDom(transactions) {
 		this._$transactionsUl.innerHTML = "";
 		transactions.forEach((transaction) => {
 			const liClass = transaction._type === "+" ? "plus" : "minus";
@@ -31,7 +55,7 @@ class TransactionsController {
 		});
 	}
 
-	updateIncome(transactions) {
+	_updateIncome(transactions) {
 		const incomes = transactions.filter(
 			(transaction) => transaction._type === "+"
 		);
@@ -45,7 +69,7 @@ class TransactionsController {
 		return income;
 	}
 
-	updateSpents(transactions) {
+	_updateSpents(transactions) {
 		const spents = transactions.filter(
 			(transaction) => transaction._type === "-"
 		);

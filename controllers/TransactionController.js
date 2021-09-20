@@ -6,7 +6,6 @@ class TransactionController {
 		this._inputAmount = $("#amount");
 		this._typeTransaction = "+";
 		this._removeClass = new RemoveClassList("#buttons > div");
-		this._transactionsController = new TransactionsController();
 	}
 
 	addTransaction(event) {
@@ -18,7 +17,7 @@ class TransactionController {
 			this._typeTransaction
 		);
 
-		this._transactionsController.update(transaction);
+		transactions.update(transaction);
 
 		this._cleanForm();
 	}

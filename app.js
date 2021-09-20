@@ -1,4 +1,14 @@
 const transaction = new TransactionController();
+const transactions = new TransactionsController();
+
+window.onload = () => {
+	const transactionsLocalStorage = JSON.parse(
+		localStorage.getItem("transactions")
+	);
+	if (!transactionsLocalStorage) return;
+
+	transactions.init(transactionsLocalStorage);
+};
 
 document
 	.querySelector("#form")
