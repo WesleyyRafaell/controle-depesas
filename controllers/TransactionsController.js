@@ -51,14 +51,25 @@ class TransactionsController {
 		this._$transactionsUl.innerHTML = "";
 		transactions.forEach((transaction) => {
 			const liClass = transaction._type === "+" ? "plus" : "minus";
-			this._$transactionsUl.innerHTML += `<li class=${liClass}>${transaction._name} 
+			this._$transactionsUl.innerHTML += `<li data-id="${transaction._id}" class=${liClass}>${transaction._name} 
 			<span>${transaction._type} R$${transaction._value}</span>
-			<button onClick="transactions.metodoTeste.call(transactions)" class="delete-btn">x</button></li>`;
+			<button class="delete-btn">x</button></li>`;
 		});
 	}
 
-	metodoTeste() {
-		console.log("oi");
+	removeTransaction(event) {
+		const target = event.target.parentNode;
+		if (target.tagName !== "LI") return;
+		const idTransaction = target.dataset.id;
+
+		this._transactions.remove(idTransaction);
+		localStorage.removeItem("transactions");
+
+		const newArr = this._transactions.getTransactions();
+
+		localStorage.setItem("transactions", JSON.stringify(newArr));
+
+		this.updateTotalBalance(newArr);
 	}
 
 	_updateIncome(transactions) {
@@ -66,7 +77,10 @@ class TransactionsController {
 			(transaction) => transaction._type === "+"
 		);
 
-		if (incomes.length === 0) return 0;
+		if (incomes.length === 0) {
+			this._$incomes.innerHTML = "R$ 0.00";
+			return 0;
+		}
 
 		const income = this._returnValueOfArray(incomes);
 
@@ -80,7 +94,10 @@ class TransactionsController {
 			(transaction) => transaction._type === "-"
 		);
 
-		if (spents.length === 0) return 0;
+		if (spents.length === 0) {
+			this._$spents.innerHTML = "R$ 0.00";
+			return 0;
+		}
 
 		const spent = this._returnValueOfArray(spents);
 

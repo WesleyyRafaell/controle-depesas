@@ -2,6 +2,7 @@ class TransactionController {
 	constructor() {
 		const $ = document.querySelector.bind(document);
 
+		this._idTransaction = "";
 		this._inputName = $("#name");
 		this._inputAmount = $("#amount");
 		this._typeTransaction = "+";
@@ -10,8 +11,10 @@ class TransactionController {
 
 	addTransaction(event) {
 		event.preventDefault();
+		this._idTransaction = "_" + Math.random().toString(36).substr(2, 9);
 
 		const transaction = new Transaction(
+			this._idTransaction,
 			this._inputName.value,
 			this._inputAmount.value,
 			this._typeTransaction

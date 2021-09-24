@@ -20,3 +20,7 @@ document
 		"click",
 		transaction.toggleTypeTransaction.bind(transaction)
 	);
+
+document
+	.querySelector("#transactions")
+	.addEventListener("click", transactions.removeTransaction.bind(transactions));

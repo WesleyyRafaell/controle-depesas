@@ -1,5 +1,6 @@
 class Transaction {
-	constructor(_name, _value, _type) {
+	constructor(_id, _name, _value, _type) {
+		this._id = _id;
 		this._name = _name;
 		this._value = _value;
 		this._type = _type;
