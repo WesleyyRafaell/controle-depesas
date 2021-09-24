@@ -51,8 +51,14 @@ class TransactionsController {
 		this._$transactionsUl.innerHTML = "";
 		transactions.forEach((transaction) => {
 			const liClass = transaction._type === "+" ? "plus" : "minus";
-			this._$transactionsUl.innerHTML += `<li class=${liClass}>${transaction._name} <span>${transaction._type} R$${transaction._value}</span><button class="delete-btn">x</button></li>`;
+			this._$transactionsUl.innerHTML += `<li class=${liClass}>${transaction._name} 
+			<span>${transaction._type} R$${transaction._value}</span>
+			<button onClick="transactions.metodoTeste.call(transactions)" class="delete-btn">x</button></li>`;
 		});
+	}
+
+	metodoTeste() {
+		console.log("oi");
 	}
 
 	_updateIncome(transactions) {
