@@ -11,6 +11,8 @@ class TransactionController {
 
 	addTransaction(event) {
 		event.preventDefault();
+		if (!this._inputName.value || !this._inputAmount.value) return;
+
 		this._idTransaction = "_" + Math.random().toString(36).substr(2, 9);
 
 		const transaction = new Transaction(
